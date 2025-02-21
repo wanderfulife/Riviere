@@ -153,32 +153,9 @@
             </button>
           </div>
           <!-- Free Text Questions -->
-          <div v-if="currentQuestion.value.freeText">
+          <div v-if="currentQuestion.freeText">
             <div class="input-container">
               <input
-                v-if="
-                  ['Q15a', 'Q15b', 'Q15c'].includes(currentQuestion.value.id)
-                "
-                v-model="freeTextAnswer"
-                class="form-control"
-                type="number"
-                min="0"
-                max="5"
-                :placeholder="'Entrez un nombre entre 0 et 5'"
-                @input="validateNumberInput"
-              />
-              <input
-                v-else-if="['Q11', 'Q12b'].includes(currentQuestion.value.id)"
-                v-model="freeTextAnswer"
-                class="form-control"
-                type="number"
-                :placeholder="
-                  currentQuestion.freeTextPlaceholder ||
-                  'Votre réponse (nombres uniquement)'
-                "
-              />
-              <input
-                v-else
                 v-model="freeTextAnswer"
                 class="form-control"
                 type="text"
@@ -190,7 +167,7 @@
             <button
               @click="handleFreeTextAnswer"
               class="btn-next"
-              :disabled="!isValidInput"
+              :disabled="!freeTextAnswer"
             >
               {{ isLastQuestion ? "Terminer" : "Suivant" }}
             </button>
@@ -391,14 +368,24 @@ const setEnqueteur = () => {
 };
 
 const startSurvey = () => {
+  // Initialize answers if not already done
+  if (!answers.value) {
+    answers.value = {};
+  }
+
   startDate.value = new Date().toLocaleTimeString("fr-FR", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
   });
-  currentStep.value = "survey";
-  currentQuestionIndex.value = 0; // Start from Q1
+
+  // Reset any existing state
+  currentQuestionIndex.value = 0;
+  freeTextAnswer.value = "";
   isSurveyComplete.value = false;
+
+  // Set the current step last to ensure all initialization is done
+  currentStep.value = "survey";
 };
 
 // Add this near the top of the <script setup> section
@@ -410,8 +397,12 @@ const selectAnswer = (option) => {
   if (currentQuestion.value) {
     const questionId = currentQuestion.value.id;
 
-    // Save the answer normally
-    answers.value[questionId] = option.id;
+    // Special handling for Q15 questions to ensure zero is stored properly
+    if (["Q15a", "Q15b", "Q15c"].includes(questionId)) {
+      answers.value[questionId] = option.id.toString(); // Convert to string to ensure 0 is preserved
+    } else {
+      answers.value[questionId] = option.id;
+    }
 
     // Debug log all answers
     console.log(
@@ -545,12 +536,13 @@ const finishSurvey = async () => {
   // Process answers before saving
   Object.keys(answers.value).forEach((key) => {
     if (answers.value[key] !== undefined && answers.value[key] !== null) {
+      // Special handling for Q15 questions
+      if (["Q15a", "Q15b", "Q15c"].includes(key)) {
+        surveyData[key] = answers.value[key].toString(); // Ensure zero is preserved as string
+      }
       // Special handling for Q14 (multiple choice)
-      if (key === "Q14") {
-        // Store the array of selected IDs directly
+      else if (key === "Q14") {
         surveyData[key] = answers.value[key];
-
-        // If "Autre" is selected, store the precision text separately
         if (answers.value[key].includes(9) && answers.value["Q14_precision"]) {
           surveyData["Q14_precision"] = answers.value["Q14_precision"];
         }
@@ -640,23 +632,6 @@ const handleMultipleChoiceAnswer = ({ selectedOptions, precision }) => {
       (opt) => opt.id === selectedOptions[selectedOptions.length - 1]
     );
     nextQuestion(selectedOption?.next);
-  }
-};
-
-const isValidInput = computed(() => {
-  if (["Q15a", "Q15b", "Q15c"].includes(currentQuestion.value?.id)) {
-    const num = Number(freeTextAnswer.value);
-    return !isNaN(num) && num >= 0 && num <= 5;
-  }
-  return freeTextAnswer.value !== "";
-});
-
-const validateNumberInput = (event) => {
-  if (["Q15a", "Q15b", "Q15c"].includes(currentQuestion.value?.id)) {
-    let value = Number(event.target.value);
-    if (value < 0) value = 0;
-    if (value > 5) value = 5;
-    freeTextAnswer.value = value.toString();
   }
 };
 </script>

@@ -210,20 +210,38 @@ export const questions = [
   {
     id: "Q15a",
     text: "Sur une échelle de 0 (insatisfait) à 5 (très satisfait), comment jugez-vous l'offre de stationnement pour la voiture en centre-ville ?",
-    freeText: true,
-    next: "Q15b"
+    options: [
+      { id: 0, text: "0 - Insatisfait", next: "Q15b" },
+      { id: 1, text: "1", next: "Q15b" },
+      { id: 2, text: "2", next: "Q15b" },
+      { id: 3, text: "3", next: "Q15b" },
+      { id: 4, text: "4", next: "Q15b" },
+      { id: 5, text: "5 - Très satisfait", next: "Q15b" }
+    ]
   },
   {
     id: "Q15b",
     text: "Sur une échelle de 0 (insatisfait) à 5 (très satisfait), comment jugez-vous le prix du stationnement payant pour la voiture en centre-ville ?",
-    freeText: true,
-    next: "Q15c"
+    options: [
+      { id: 0, text: "0 - Insatisfait", next: "Q15c" },
+      { id: 1, text: "1", next: "Q15c" },
+      { id: 2, text: "2", next: "Q15c" },
+      { id: 3, text: "3", next: "Q15c" },
+      { id: 4, text: "4", next: "Q15c" },
+      { id: 5, text: "5 - Très satisfait", next: "Q15c" }
+    ]
   },
   {
     id: "Q15c",
     text: "Sur une échelle de 0 (insatisfait) à 5 (très satisfait), comment jugez-vous les conditions de circulation automobile en centre-ville ?",
-    freeText: true,
-    next: "Q16"
+    options: [
+      { id: 0, text: "0 - Insatisfait", next: "Q16" },
+      { id: 1, text: "1", next: "Q16" },
+      { id: 2, text: "2", next: "Q16" },
+      { id: 3, text: "3", next: "Q16" },
+      { id: 4, text: "4", next: "Q16" },
+      { id: 5, text: "5 - Très satisfait", next: "Q16" }
+    ]
   },
   {
     id: "Q16",
