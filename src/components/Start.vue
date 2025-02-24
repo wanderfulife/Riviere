@@ -23,7 +23,7 @@
       <div v-else-if="currentStep === 'start'" class="start-survey-container">
         <h2>
           Bonjour,<br />
-          La Ville et l’agglomération de Morlaix ont missionné Transitec/Alyce
+          La Ville et l'agglomération de Morlaix ont missionné Transitec/Alyce
           pour réaliser une étude sur le stationnement du centre-ville,<br />
           concernant les places des Otages, Cornic et De Gaulles.
         </h2>
@@ -100,7 +100,6 @@
             v-else-if="currentQuestion.multipleChoice"
             class="question-container"
           >
-            <h2>{{ currentQuestion.text }}</h2>
             <MultipleChoice
               :question="currentQuestion"
               v-model="multipleChoiceAnswers[currentQuestion.id]"
