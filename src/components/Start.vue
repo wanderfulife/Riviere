@@ -23,9 +23,9 @@
       <div v-else-if="currentStep === 'start'" class="start-survey-container">
         <h2>
           Bonjour,<br />
-          nous souhaitons en savoir plus sur votre déplacement en cours.<br />
-          <br />
-          Acceptez-vous de répondre à quelques questions ?
+          La Ville et l’agglomération de Morlaix ont missionné Transitec/Alyce
+          pour réaliser une étude sur le stationnement du centre-ville,<br />
+          concernant les places des Otages, Cornic et De Gaulles.
         </h2>
         <button @click="startSurvey" class="btn-next">
           COMMENCER QUESTIONNAIRE

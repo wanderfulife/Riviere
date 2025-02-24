@@ -129,10 +129,12 @@ export const questions = [
     id: "Q8",
     text: "Quelle est la durée prévue de votre stationnement ?",
     options: [
-      { id: 1, text: "Moins d'une heure", next: "Q9" },
-      { id: 2, text: "1 à 2 heures", next: "Q9" },
-      { id: 3, text: "Une demi-journée", next: "Q9" },
-      { id: 4, text: "Toute la journée", next: "Q9" }
+      { id: 1, text: "Moins de 15 minutes", next: "Q9" },
+      { id: 2, text: "Moins de 30 minutes", next: "Q9" },
+      { id: 3, text: "Moins d'une heure", next: "Q9" },
+      { id: 4, text: "1 à 2 heures", next: "Q9" },
+      { id: 5, text: "Une demi-journée", next: "Q9" },
+      { id: 6, text: "Toute la journée", next: "Q9" }
     ]
   },
   {
